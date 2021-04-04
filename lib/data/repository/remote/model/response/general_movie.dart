@@ -1,64 +1,49 @@
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:json_annotation/json_annotation.dart';
+part 'general_movie.g.dart';
+
+@JsonSerializable()
 class GeneralMovie {
-  int? _vote_count;
-  int? _id;
-  bool? _video;
-  String? _vote_average;
-  String? _title;
-  double? _popularity;
-  String? _poster_path;
-  String? _original_language;
-  String? _original_title;
-  List<int>? _genre_ids = [];
-  String? _backdrop_path;
-  bool? _adult;
-  String? _overview;
-  String? _release_date;
+  @JsonKey(name: 'vote_count')
+  final int voteCount;
+  final int id;
+  final bool video;
+  @JsonKey(name: 'vote_average')
+  final double voteAverage;
+  final String title;
+  final double popularity;
+  @JsonKey(name: 'poster_path')
+  final String posterPath;
+  @JsonKey(name: 'original_language')
+  final String originalLanguage;
+  @JsonKey(name: 'original_title')
+  final String originalTitle;
+  @JsonKey(name: 'genre_ids')
+  final List<int> genreIds = [];
+  @JsonKey(name: 'backdrop_path')
+  final String backdropPath;
+  final bool adult;
+  final String overview;
+  @JsonKey(name: 'release_date')
+  final String releaseDate;
 
-  GeneralMovie(result) {
-    _vote_count = result['vote_count'];
-    _id = result['id'];
-    _video = result['video'];
-    _vote_average = result['vote_average'].toString();
-    _title = result['title'];
-    _popularity = result['popularity'];
-    _poster_path = result['poster_path'];
-    _original_language = result['original_language'];
-    _original_title = result['original_title'];
-    for (int i = 0; i < result['genre_ids'].length; i++) {
-      _genre_ids!.add(result['genre_ids'][i]);
-    }
-    _backdrop_path = result['backdrop_path'];
-    _adult = result['adult'];
-    _overview = result['overview'];
-    _release_date = result['release_date'];
-  }
+  GeneralMovie({
+    required this.voteCount,
+    required this.id,
+    required this.video,
+    required this.voteAverage,
+    required this.title,
+    required this.popularity,
+    required this.posterPath,
+    required this.originalLanguage,
+    required this.backdropPath,
+    required this.adult,
+    required this.overview,
+    required this.releaseDate,
+    required this.originalTitle,
+  });
 
-  // ignore: non_constant_identifier_names
-  String? get release_date => _release_date;
+  factory GeneralMovie.fromJson(Map<String, dynamic> json) => _$GeneralMovieFromJson(json);
 
-  String? get overview => _overview;
-
-  bool? get adult => _adult;
-
-  String? get backdrop_path => _backdrop_path;
-
-  List<int>? get genre_ids => _genre_ids;
-
-  String? get original_title => _original_title;
-
-  String? get original_language => _original_language;
-
-  String? get poster_path => _poster_path;
-
-  double? get popularity => _popularity;
-
-  String? get title => _title;
-
-  String? get vote_average => _vote_average;
-
-  bool? get video => _video;
-
-  int? get id => _id;
-
-  int? get vote_count => _vote_count;
+  Map<String, dynamic> toJson() => _$GeneralMovieToJson(this);
 }

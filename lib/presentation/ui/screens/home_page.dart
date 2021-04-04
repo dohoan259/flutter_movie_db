@@ -1,7 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_db/data/repository/movie_repo.dart';
 import 'package:flutter_movie_db/di/di.dart';
 import 'package:flutter_movie_db/presentation/base/base_page.dart';
 import 'package:flutter_movie_db/presentation/controller/home_controller.dart';
@@ -14,7 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateNotifierProvider<HomeController, HomeState>(
-      create: (_) => getIt.get<HomeController>()..movieId = "movieId",
+      create: (_) => getIt.get<HomeController>()..movieId = "movie id",
       builder: (context, child) {
         return BasePage<HomeController, HomeState>(
           loadedView: _buildContent(context),

@@ -1,14 +1,24 @@
-
-import 'package:flutter_movie_db/data/model/item_model.dart';
-import 'package:flutter_movie_db/utils/config.dart';
+import 'package:flutter_movie_db/data/model/movie_type.dart';
+import 'package:flutter_movie_db/data/repository/remote/model/response/general_movie.dart';
+import 'package:flutter_movie_db/data/repository/remote/source/movie_remote_source.dart';
 import 'package:injectable/injectable.dart';
 
 import 'i_movie_repository.dart';
 
-@injectable
-class MovieRepository implements IMovieRepository{
+@Injectable(as: IMovieRepository)
+class MovieRepository implements IMovieRepository {
 
-  int getA() {
-    return 5;
+  MovieRepository(this.remoteSource);
+
+  final MovieRemoteSource remoteSource;
+
+  @override
+  Future<List<GeneralMovie>> getMovieList(MovieType movieType) {
+    switch (movieType) {
+      case MovieType.POPULAR:
+        return remoteSource.fetchPopularMovie();
+      default:
+        return remoteSource.fetchPopularMovie();
+    }
   }
 }

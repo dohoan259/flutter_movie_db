@@ -1,8 +1,7 @@
 
 
-import 'package:flutter_movie_db/data/repository/movie_repo.dart';
-import 'package:flutter_movie_db/data/repository/repo1.dart';
-import 'package:flutter_movie_db/data/repository/repo2.dart';
+import 'package:flutter_movie_db/data/model/movie_type.dart';
+import 'package:flutter_movie_db/data/repository/i_movie_repository.dart';
 import 'package:flutter_movie_db/data/result.dart';
 import 'package:flutter_movie_db/presentation/base/base_controller.dart';
 import 'package:flutter_movie_db/presentation/base/base_state.dart';
@@ -11,14 +10,16 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class HomeController extends BaseController<HomeState> {
-  HomeController({required this.movieRepository}) : super(HomeState());
+  HomeController(this.movieRepository) : super(HomeState());
 
-  final MovieRepository movieRepository;
+  final IMovieRepository movieRepository;
   late String movieId;
 
   @override
   Future<Result> loadData() async {
-    print('hoan.dv: movieId: $movieId');
+    final movieResponse = await movieRepository.getMovieList(MovieType.POPULAR);
+
+    print('hoan.dv: movie response are ${movieResponse.length} item');
 
     final HomeState clone = state.copyWith(viewState: ViewState.Loaded);
     state = clone;

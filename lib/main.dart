@@ -9,7 +9,7 @@ import 'di/di.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await configureInjection(Env.dev);
+  await configureInjection(Env.prod);
 
   runApp(MyApp());
 }
