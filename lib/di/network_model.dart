@@ -17,13 +17,25 @@ abstract class NetworkModule {
 
   @Named('api_key_interceptor')
   @singleton
-  Interceptor getApiKeyInterceptor() =>
-      ApiKeyInterceptor(apiKey);
+  Interceptor getApiKeyInterceptor() => ApiKeyInterceptor(apiKey);
+
+  @Named('base_url')
+  String get baseUrl => "https://api.themoviedb.org/3";
+
+  @Named('poster_url')
+  String get posterUrl => 'https://image.tmdb.org/t/p/original';
 
   @singleton
-  Dio getDio(@Named('api_key_interceptor') Interceptor apiKeyInterceptor, @Named('logging_interceptor') Interceptor loggingInterceptor){
-    final dio = Dio(BaseOptions(connectTimeout: 30000, receiveTimeout: 30000))
-      ..interceptors.add(apiKeyInterceptor);
+  Dio getDio(@Named('api_key_interceptor') Interceptor apiKeyInterceptor,
+      @Named('logging_interceptor') Interceptor loggingInterceptor) {
+    final dio = Dio(
+      BaseOptions(
+        contentType: 'application/json',
+        baseUrl: baseUrl,
+        connectTimeout: 30000,
+        receiveTimeout: 30000,
+      ),
+    )..interceptors.add(apiKeyInterceptor);
     //todo: if debug mode, add logging interceptor
     dio.interceptors.add(loggingInterceptor);
 

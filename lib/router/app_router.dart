@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_db/presentation/ui/screens/home_page.dart';
+import 'package:flutter_movie_db/presentation/ui/screens/home/home_page.dart';
 
 class AppRouter {
   static const HOME_PATH = '/';
   static const LOGIN_PATH = '/login';
   static const POST_PATH = '/post';
+  static const TEST_PATH = '/test';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {

@@ -13,15 +13,11 @@ class HomeController extends BaseController<HomeState> {
   HomeController(this.movieRepository) : super(HomeState());
 
   final IMovieRepository movieRepository;
-  late String movieId;
 
   @override
   Future<Result> loadData() async {
     final movieResponse = await movieRepository.getMovieList(MovieType.POPULAR);
-
-    print('hoan.dv: movie response are ${movieResponse.length} item');
-
-    final HomeState clone = state.copyWith(viewState: ViewState.Loaded);
+    final HomeState clone = state.copyWith(viewState: ViewState.Loaded, popularMovies: movieResponse);
     state = clone;
 
     return Success();

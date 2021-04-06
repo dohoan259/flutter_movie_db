@@ -60,6 +60,7 @@ class _BasePageState<C extends BaseController, T extends BaseState>
               return Stack(
                 children: [
                   Scaffold(
+                    backgroundColor: Colors.black38,
                     body: widget.loadedView,
                   ),
                   Selector<T, bool>(

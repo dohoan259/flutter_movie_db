@@ -28,23 +28,18 @@ dependencies:
 
   intl: ^0.17.0
 
-  provider: ^4.3.3
-
-  flutter_state_notifier: ^0.6.0
-
-  state_notifier: ^0.6.0
-
   equatable: ^1.2.2
 
-  injectable: ^1.1.2
-
   get_it: ^6.0.0
-
-  retrofit: ^1.3.4
   logger: ^0.9.1
-  dio: ^3.0.9
   json_annotation: ^3.0.1
 
+  provider: ^5.0.0
+  flutter_state_notifier: ^0.7.0
+  state_notifier: ^0.7.0
+  injectable: ^1.2.2
+  dio: ^3.0.9
+  retrofit: ^1.3.4+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -57,7 +52,8 @@ dev_dependencies:
   # add the generator to your dev_dependencies
   injectable_generator: ^1.1.2
   # add build runner if not already added
-  retrofit_generator: ^1.3.7+2
+#  retrofit_generator: ^1.3.7+2
+  retrofit_generator: ^1.4.1+3
   build_runner: ^1.10.0
   json_serializable: ^3.3.0
 

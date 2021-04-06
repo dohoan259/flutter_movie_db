@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_db/di/di.config.dart';
-import 'package:flutter_movie_db/presentation/ui/screens/home_page.dart';
+import 'package:flutter_movie_db/presentation/ui/screens/home/home_page.dart';
 import 'package:flutter_movie_db/utils/config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
