@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 class ApiKeyInterceptor extends Interceptor {
-
   @factoryMethod
   ApiKeyInterceptor(this.apiKey);
 
@@ -14,10 +13,10 @@ class ApiKeyInterceptor extends Interceptor {
 
   @override
   Future onRequest(RequestOptions options) async {
-    // if (options.headers.containsKey('authenticate')) {
-    //   options.headers.remove('authenticate');
+    if (options.headers.containsKey('authenticate')) {
+      options.headers.remove('authenticate');
       options.queryParameters['api_key'] = apiKey;
-    // }
+    }
 
     return options;
   }
