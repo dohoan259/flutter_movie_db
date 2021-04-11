@@ -1,42 +1,8 @@
 import 'dart:io';
 
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
-
-class ErrorEntity implements Exception{
-  const ErrorEntity({required this.title, required this.message});
-
-  final String title;
-  final String message;
-
-  @override
-  String toString() {
-    return '$title $message';
-  }
-}
-
-class NetworkException extends ErrorEntity {
-  NetworkException()
-      : super(title: 'Network Error', message: 'No Internet connection');
-}
-
-class BadRequestException extends ErrorEntity {
-  BadRequestException(String message)
-      : super(title: 'Invalid Request', message: message);
-}
-
-class UnauthorisedException extends ErrorEntity {
-  UnauthorisedException(String message)
-      : super(title: 'Unauthorised', message: message);
-}
-
-class NotFoundException extends ErrorEntity {
-  NotFoundException()
-      : super(title: 'Not Found', message: 'The page is not exist');
-}
-
-class FetchDataException extends ErrorEntity {
-  FetchDataException(String message) : super(title: 'Error During Communication', message: message);
-}
+import 'package:flutter_movie_db/data/error_entity.dart';
 
 ErrorEntity? getDioException(error) {
   if (error is Exception) {
@@ -67,24 +33,24 @@ ErrorEntity? getDioException(error) {
                 networkException = NotFoundException();
                 break;
               case 409:
-              //todo: conflict
+                //todo: conflict
                 break;
               case 408:
-              //todo: request timeout
+                //todo: request timeout
                 break;
               case 500:
-              // todo: internal server error
+                // todo: internal server error
                 break;
               case 503:
-              //todo: service unavailable
+                //todo: service unavailable
                 break;
               default:
-              //todo: default error
+                //todo: default error
                 break;
             }
             break;
           case DioErrorType.SEND_TIMEOUT:
-          //todo: send time out
+            //todo: send time out
             break;
         }
       } else if (error is SocketException) {

@@ -1,23 +1,17 @@
 // ignore: import_of_legacy_library_into_null_safe
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../error_entity.dart';
-
 @Named('logging_interceptor')
 @Singleton(as: Interceptor)
-class LoggingInterceptor implements Interceptor {
+class ErrorHandlingInterceptor implements Interceptor {
   @override
   Future onRequest(RequestOptions options) async {
-    print('REQUEST[${options.method}] => PATH: ${options.uri.toString()}');
     return options;
   }
   @override
   Future onResponse(Response response) async {
-    print('RESPONSE[${response.statusCode}] => PATH: ${response.request?.path}');
     return response;
   }
 
@@ -39,11 +33,6 @@ class LoggingInterceptor implements Interceptor {
     }
 
     logPrint('*** Api Error - End ***:');
-
-    if (err.error is SocketException) {
-      return NetworkException();
-    }
-
     return err;
   }
 

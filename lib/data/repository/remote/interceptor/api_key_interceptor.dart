@@ -13,10 +13,10 @@ class ApiKeyInterceptor extends Interceptor {
 
   @override
   Future onRequest(RequestOptions options) async {
-    if (options.headers.containsKey('authenticate')) {
-      options.headers.remove('authenticate');
-      options.queryParameters['api_key'] = apiKey;
-    }
+    // if (options.headers.containsKey('authenticate')) {
+    //   options.headers.remove('authenticate');
+    //   options.queryParameters['api_key'] = apiKey;
+    // }
 
     return options;
   }

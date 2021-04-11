@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_movie_db/generated/l10n.dart';
 import 'package:flutter_movie_db/router/app_router.dart';
-import 'package:flutter_movie_db/utils/config.dart';
+import 'package:injectable/injectable.dart';
 
 import 'di/di.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await configureInjection(Env.prod);
+  await configureInjection(Environment.dev);
 
   runApp(MyApp());
 }

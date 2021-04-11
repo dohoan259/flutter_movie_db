@@ -6,9 +6,11 @@ import 'base_state.dart';
 
 abstract class BaseController<T extends BaseState> extends StateNotifier<T>
     with LocatorMixin {
-  BaseController(T state) : super(state);
+  BaseController(T state) : super(state) {
+    loadData();
+  }
 
-  Future<Result> loadData();
+  Future<bool> loadData();
 
   Future<void> reload() async {
     BaseState clone = state.copyWith();

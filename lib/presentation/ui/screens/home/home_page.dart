@@ -36,6 +36,7 @@ class HomePage extends StatelessWidget {
             selector: (_, state) => state.popularMovies,
             builder: (context, movieList, _) {
               return GridView.builder(
+                addAutomaticKeepAlives: true,
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: movieList.length,

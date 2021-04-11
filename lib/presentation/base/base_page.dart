@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_db/data/result.dart';
+import 'package:flutter_movie_db/common/error_handler.dart';
+import 'package:flutter_movie_db/common/error_listener.dart';
+import 'package:flutter_movie_db/data/error_entity.dart';
 import 'package:flutter_movie_db/presentation/ui/screens/error/unknown_error_page.dart';
 import 'package:flutter_movie_db/presentation/ui/widgets/loading.dart';
 import 'package:flutter_movie_db/presentation/ui/widgets/uninitialized_widget.dart';
@@ -11,34 +13,16 @@ import 'base_controller.dart';
 import 'base_state.dart';
 
 class BasePage<C extends BaseController, T extends BaseState>
-    extends StatefulWidget {
-  @override
-  _BasePageState<C, T> createState() => _BasePageState<C, T>();
-
-  final Function(Result)? onPageInitialized;
+    extends StatelessWidget {
 
   final Widget loadedView;
 
   final Widget? errorView;
 
   const BasePage({
-    this.onPageInitialized,
     required this.loadedView,
     this.errorView,
   });
-}
-
-class _BasePageState<C extends BaseController, T extends BaseState>
-    extends State<BasePage> {
-  @override
-  void initState() {
-    context.read<C>().loadData().then((result) {
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-        widget.onPageInitialized?.call(result);
-      });
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +39,14 @@ class _BasePageState<C extends BaseController, T extends BaseState>
             if (viewState == ViewState.Uninitialized) {
               return UninitializedWidget();
             } else if (viewState == ViewState.Error) {
-              return widget.errorView ?? UnknownErrorPage<C>();
+              // return errorView ?? UnknownErrorPage<C>();
+              return ErrorListener.instance.handleError(NetworkException());
             } else {
               return Stack(
                 children: [
                   Scaffold(
                     backgroundColor: Colors.black38,
-                    body: widget.loadedView,
+                    body: loadedView,
                   ),
                   Selector<T, bool>(
                       builder: (_, processing, __) {
