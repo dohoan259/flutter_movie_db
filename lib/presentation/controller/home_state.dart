@@ -8,12 +8,13 @@ class HomeState extends BaseState {
   List<GeneralMovie> popularMovies = [];
 
   @override
-  HomeState copyWith({viewState, processing, count, popularMovies}) {
+  HomeState copyWith({viewState, processing, count, popularMovies, error}) {
     var newState = HomeState();
     newState.viewState = viewState ?? this.viewState;
     newState.processing = processing ?? this.processing;
     newState.count = count ?? this.count;
     newState.popularMovies = popularMovies ?? [];
+    newState.error = error ?? this.error;
 
     return newState;
   }

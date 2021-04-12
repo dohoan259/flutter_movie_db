@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-
-class ErrorEntity implements Exception{
+class ErrorEntity implements Exception {
   const ErrorEntity({required this.title, required this.message});
 
   final String title;
@@ -17,6 +13,11 @@ class ErrorEntity implements Exception{
 class NetworkException extends ErrorEntity {
   NetworkException()
       : super(title: 'Network Error', message: 'No Internet connection');
+}
+
+class RequestCancelledException extends ErrorEntity {
+  RequestCancelledException()
+      : super(title: 'Request cancelled', message: 'Cancelled');
 }
 
 class BadRequestException extends ErrorEntity {
@@ -35,74 +36,48 @@ class NotFoundException extends ErrorEntity {
 }
 
 class FetchDataException extends ErrorEntity {
-  FetchDataException(String message) : super(title: 'Error During Communication', message: message);
+  FetchDataException(String message)
+      : super(title: 'Error During Communication', message: message);
 }
 
-ErrorEntity? getDioException(error) {
-  if (error is Exception) {
-    try {
-      ErrorEntity? networkException;
-      if (error is DioError) {
-        switch (error.type) {
-          case DioErrorType.CANCEL:
-            networkException = NetworkException();
-            break;
-          case DioErrorType.CONNECT_TIMEOUT:
-            networkException = NetworkException();
-            break;
-          case DioErrorType.DEFAULT:
-            networkException = NetworkException();
-            break;
-          case DioErrorType.RECEIVE_TIMEOUT:
-            networkException = NetworkException();
-            break;
-          case DioErrorType.RESPONSE:
-            switch (error.response.statusCode) {
-              case 400:
-              case 401:
-              case 403:
-                networkException = UnauthorisedException(error.response.statusMessage);
-                break;
-              case 404:
-                networkException = NotFoundException();
-                break;
-              case 409:
-              //todo: conflict
-                break;
-              case 408:
-              //todo: request timeout
-                break;
-              case 500:
-              // todo: internal server error
-                break;
-              case 503:
-              //todo: service unavailable
-                break;
-              default:
-              //todo: default error
-                break;
-            }
-            break;
-          case DioErrorType.SEND_TIMEOUT:
-          //todo: send time out
-            break;
-        }
-      } else if (error is SocketException) {
-        networkException = NetworkException();
-      } else {
-        // unexpected error
-      }
-      return networkException;
-    } on FormatException catch (e) {
-      // format exception
-    } catch (_) {
-      // todo: unexpected error
-    }
-  } else {
-    if (error.toString().contains('is not a subtype of')) {
-      // todo: unable to process
-    } else{
-      //todo: unexpected error
-    }
-  }
+class ConflictException extends ErrorEntity {
+  ConflictException() : super(title: 'Conflict', message: 'Conflict');
+}
+
+class RequestTimeoutException extends ErrorEntity {
+  RequestTimeoutException()
+      : super(title: 'Timeout', message: 'Request time out');
+}
+
+class SendTimeoutException extends ErrorEntity {
+  SendTimeoutException() : super(title: 'Timeout', message: 'Send timeout');
+}
+
+class ServiceUnavailableException extends ErrorEntity {
+  ServiceUnavailableException()
+      : super(title: 'Service unavailable', message: 'Unavailable');
+}
+
+class UnexpectedException extends ErrorEntity {
+  UnexpectedException() : super(title: 'Unexpected', message: 'Unexpected');
+}
+
+class UnableToProcess extends ErrorEntity {
+  UnableToProcess(String message)
+      : super(title: 'Unexpected', message: message);
+}
+
+class FormatException extends ErrorEntity {
+  FormatException(String message)
+      : super(title: 'Formatted exception', message: message);
+}
+
+class ServerInternalException extends ErrorEntity {
+  ServerInternalException()
+      : super(title: 'Server exception', message: 'Server internal error');
+}
+
+class DefaultException extends ErrorEntity {
+  DefaultException(String message)
+      : super(title: 'Server exception', message: message);
 }

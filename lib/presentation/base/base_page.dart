@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie_db/common/error_handler.dart';
 import 'package:flutter_movie_db/common/error_listener.dart';
 import 'package:flutter_movie_db/data/error_entity.dart';
+import 'package:flutter_movie_db/di/di.dart';
 import 'package:flutter_movie_db/presentation/ui/screens/error/unknown_error_page.dart';
 import 'package:flutter_movie_db/presentation/ui/widgets/loading.dart';
 import 'package:flutter_movie_db/presentation/ui/widgets/uninitialized_widget.dart';
@@ -14,7 +15,6 @@ import 'base_state.dart';
 
 class BasePage<C extends BaseController, T extends BaseState>
     extends StatelessWidget {
-
   final Widget loadedView;
 
   final Widget? errorView;
@@ -39,8 +39,9 @@ class BasePage<C extends BaseController, T extends BaseState>
             if (viewState == ViewState.Uninitialized) {
               return UninitializedWidget();
             } else if (viewState == ViewState.Error) {
-              // return errorView ?? UnknownErrorPage<C>();
-              return ErrorListener.instance.handleError(NetworkException());
+              final ErrorEntity error = context.read<T>().error!;
+              // todo: clear error
+              return getIt<ErrorListener>().handleError<C>(error);
             } else {
               return Stack(
                 children: [

@@ -3,7 +3,13 @@ import 'package:flutter_movie_db/generated/l10n.dart';
 import 'package:flutter_movie_db/presentation/base/base_controller.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class UnknownErrorPage<C extends BaseController> extends StatelessWidget {
+
+  UnknownErrorPage({required this.message});
+
+  String message;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +21,7 @@ class UnknownErrorPage<C extends BaseController> extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              S.of(context).something_wrong,
+              message,
               style: TextStyle(
                 fontSize: 24,
               ),
