@@ -26,10 +26,9 @@ class MovieRepository implements IMovieRepository {
           data = await remoteSource.fetchPopularMovie();
           break;
       }
-      return Resource.success(data: data);
+      return Success(data);
     } catch (e, stackTrace) {
-      return Resource.error(
-          error: getIt<ErrorHandler>().handleError(e, stackTrace));
+      return Failure(getIt<ErrorHandler>().handleError(e, stackTrace));
     }
   }
 }

@@ -18,18 +18,16 @@ class HomeController extends BaseController<HomeState> {
     Resource<List<GeneralMovie>> resourceMovie =
         await movieRepository.getMovieList(MovieType.POPULAR);
 
-    final result = resourceMovie.when(success: (List<GeneralMovie> data) {
+    if (resourceMovie is Success) {
       final HomeState clone =
-          state.copyWith(viewState: ViewState.Loaded, popularMovies: data);
+      state.copyWith(viewState: ViewState.Loaded, popularMovies: resourceMovie.data);
       state = clone;
-      return true;
-    }, failure: (error) {
+    } else {
       final HomeState clone =
-          state.copyWith(viewState: ViewState.Error, popularMovies: null, error: error);
+      state.copyWith(viewState: ViewState.Error, popularMovies: null, error: resourceMovie.error);
       state = clone;
-      return false;
-    });
+    }
 
-    return result;
+    return true;
   }
 }

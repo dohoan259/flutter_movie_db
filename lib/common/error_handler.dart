@@ -20,7 +20,11 @@ class ErrorHandler {
               networkException = RequestTimeoutException();
               break;
             case DioErrorType.DEFAULT:
-              networkException = NetworkException();
+              if (error.toString().contains('is not a subtype of')) {
+                networkException = FormatException(error.toString());
+              } else {
+                networkException = NetworkException();
+              }
               break;
             case DioErrorType.RECEIVE_TIMEOUT:
               networkException = SendTimeoutException();
