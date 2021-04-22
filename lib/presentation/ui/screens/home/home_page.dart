@@ -24,39 +24,36 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
           'Popular movie',
           style: TextStyle(color: Colors.white, fontSize: 30,),
         ),
-        Expanded(
-          child: Selector<HomeState, List<GeneralMovie>>(
-            selector: (_, state) => state.popularMovies,
-            builder: (context, movieList, _) {
-              return GridView.builder(
-                addAutomaticKeepAlives: true,
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: movieList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemBuilder: (context, index) {
-                  final movie = movieList[index];
-                  final posterUrl =
-                      getIt.get<String>(instanceName: 'poster_url') +
-                          movie.posterPath;
-                  return MovieItemList(
-                    posterPath: posterUrl,
-                  );
-                },
+      ),
+      body: Selector<HomeState, List<GeneralMovie>>(
+        selector: (_, state) => state.popularMovies,
+        builder: (context, movieList, _) {
+          return GridView.builder(
+            addAutomaticKeepAlives: true,
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: movieList.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+            ),
+            itemBuilder: (context, index) {
+              final movie = movieList[index];
+              final posterUrl =
+                  getIt.get<String>(instanceName: 'poster_url') +
+                      movie.posterPath;
+              return MovieItemList(
+                posterPath: posterUrl,
               );
             },
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 }
