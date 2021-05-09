@@ -6,9 +6,7 @@ import 'base_state.dart';
 
 abstract class BaseController<T extends BaseState> extends StateNotifier<T>
     with LocatorMixin {
-  BaseController(T state) : super(state) {
-    loadData();
-  }
+  BaseController(T state) : super(state);
 
   Future<bool> loadData();
 

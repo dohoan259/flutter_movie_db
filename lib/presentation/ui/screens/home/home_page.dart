@@ -7,19 +7,13 @@ import 'package:flutter_movie_db/presentation/controller/home_state.dart';
 import 'package:flutter_movie_db/presentation/ui/widgets/movie_item_list.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StateNotifierProvider<HomeController, HomeState>(
-      create: (_) => getIt.get<HomeController>(),
-      builder: (context, child) {
-        return BasePage<HomeController, HomeState>(
-          loadedView: _buildContent(context),
-        );
-      },
+    return BasePage<HomeController, HomeState>(
+      loadedView: _buildContent(context),
     );
   }
 
@@ -28,7 +22,10 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Popular movie',
-          style: TextStyle(color: Colors.white, fontSize: 30,),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+          ),
         ),
       ),
       body: Selector<HomeState, List<GeneralMovie>>(
@@ -44,9 +41,8 @@ class HomePage extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               final movie = movieList[index];
-              final posterUrl =
-                  getIt.get<String>(instanceName: 'poster_url') +
-                      movie.posterPath;
+              final posterUrl = getIt.get<String>(instanceName: 'poster_url') +
+                  movie.posterPath;
               return MovieItemList(
                 posterPath: posterUrl,
               );

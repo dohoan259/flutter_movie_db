@@ -9,9 +9,7 @@ part of 'movie_list_response.dart';
 MovieListResponse _$MovieListResponseFromJson(Map<String, dynamic> json) {
   return MovieListResponse(
     json['page'] as int,
-    (json['results'] as List)
-        .map((e) => GeneralMovie.fromJson(e as Map<String, dynamic>))
-        .toList(),
+    (json['results'] as List).map((e) =>GeneralMovie.fromJson(e as Map<String, dynamic>)).toList(),
     json['total_pages'] as int,
     json['total_results'] as int,
   );

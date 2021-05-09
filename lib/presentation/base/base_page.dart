@@ -14,7 +14,7 @@ import 'base_controller.dart';
 import 'base_state.dart';
 
 class BasePage<C extends BaseController, T extends BaseState>
-    extends StatelessWidget {
+    extends StatefulWidget {
   final Widget loadedView;
 
   final Widget? errorView;
@@ -25,6 +25,21 @@ class BasePage<C extends BaseController, T extends BaseState>
   });
 
   @override
+  State<StatefulWidget> createState() => _BasePage<C, T>();
+
+}
+
+class _BasePage<C extends BaseController, T extends BaseState> extends State<BasePage> {
+
+  late Future _initData;
+
+  @override
+  void initState() {
+    _initData = context.read<C>().loadData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
@@ -33,37 +48,39 @@ class BasePage<C extends BaseController, T extends BaseState>
             currentFocus.unfocus();
           }
         },
-        child: Selector<T, ViewState>(
-          selector: (context, model) => model.viewState,
-          builder: (_, viewState, __) {
-            if (viewState == ViewState.Uninitialized) {
-              return UninitializedWidget();
-            } else if (viewState == ViewState.Error) {
-              final ErrorEntity error = context.read<T>().error!;
-              // todo: clear error
-              return getIt<ErrorListener>().handleError<C>(error);
-            } else {
-              return Stack(
-                children: [
-                  Scaffold(
-                    backgroundColor: Colors.black38,
-                    body: loadedView,
-                  ),
-                  Selector<T, bool>(
-                      builder: (_, processing, __) {
-                        if (processing) {
-                          return Loading(
-                            opacity: 0.3,
-                          );
-                        } else {
-                          return SizedBox();
-                        }
-                      },
-                      selector: (_, state) => state.processing)
-                ],
-              );
-            }
-          },
-        ));
+        child: FutureBuilder(future: _initData, builder: (context, snapshot) {
+          return Selector<T, ViewState>(
+            selector: (context, model) => model.viewState,
+            builder: (_, viewState, __) {
+              if (viewState == ViewState.Uninitialized) {
+                return UninitializedWidget();
+              } else if (viewState == ViewState.Error) {
+                final ErrorEntity error = context.read<T>().error!;
+                // todo: clear error
+                return getIt<ErrorListener>().handleError<C>(error);
+              } else {
+                return Stack(
+                  children: [
+                    Scaffold(
+                      backgroundColor: Colors.black38,
+                      body: widget.loadedView,
+                    ),
+                    Selector<T, bool>(
+                        builder: (_, processing, __) {
+                          if (processing) {
+                            return Loading(
+                              opacity: 0.3,
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        },
+                        selector: (_, state) => state.processing)
+                  ],
+                );
+              }
+            },
+          );
+        },));
   }
 }
