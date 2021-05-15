@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_db/common/error_handler.dart';
 import 'package:flutter_movie_db/common/error_listener.dart';
 import 'package:flutter_movie_db/data/error_entity.dart';
 import 'package:flutter_movie_db/di/di.dart';
-import 'package:flutter_movie_db/presentation/ui/screens/error/unknown_error_page.dart';
 import 'package:flutter_movie_db/presentation/ui/widgets/loading.dart';
 import 'package:flutter_movie_db/presentation/ui/widgets/uninitialized_widget.dart';
 
@@ -48,39 +46,42 @@ class _BasePage<C extends BaseController, T extends BaseState> extends State<Bas
             currentFocus.unfocus();
           }
         },
-        child: FutureBuilder(future: _initData, builder: (context, snapshot) {
-          return Selector<T, ViewState>(
-            selector: (context, model) => model.viewState,
-            builder: (_, viewState, __) {
-              if (viewState == ViewState.Uninitialized) {
-                return UninitializedWidget();
-              } else if (viewState == ViewState.Error) {
-                final ErrorEntity error = context.read<T>().error!;
-                // todo: clear error
-                return getIt<ErrorListener>().handleError<C>(error);
-              } else {
-                return Stack(
-                  children: [
-                    Scaffold(
-                      backgroundColor: Colors.black38,
-                      body: widget.loadedView,
-                    ),
-                    Selector<T, bool>(
-                        builder: (_, processing, __) {
-                          if (processing) {
-                            return Loading(
-                              opacity: 0.3,
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        },
-                        selector: (_, state) => state.processing)
-                  ],
-                );
-              }
-            },
-          );
-        },));
+        child: FutureBuilder(
+          future: _initData,
+          builder: (context, snapshot) {
+            return Selector<T, ViewState>(
+              selector: (context, model) => model.viewState,
+              builder: (_, viewState, __) {
+                if (viewState == ViewState.Uninitialized) {
+                  return UninitializedWidget();
+                } else if (viewState == ViewState.Error) {
+                  final ErrorEntity error = context.read<T>().error!;
+                  // todo: clear error
+                  return getIt<ErrorListener>().handleError<C>(error);
+                } else {
+                  return Stack(
+                    children: [
+                      Scaffold(
+                        backgroundColor: Colors.black38,
+                        body: widget.loadedView,
+                      ),
+                      Selector<T, bool>(
+                          builder: (_, processing, __) {
+                            if (processing) {
+                              return Loading(
+                                opacity: 0.3,
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
+                          selector: (_, state) => state.processing)
+                    ],
+                  );
+                }
+              },
+            );
+          },
+        ));
   }
 }

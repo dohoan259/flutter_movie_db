@@ -5,6 +5,7 @@ import 'package:flutter_movie_db/presentation/base/base_page.dart';
 import 'package:flutter_movie_db/presentation/controller/home_controller.dart';
 import 'package:flutter_movie_db/presentation/controller/home_state.dart';
 import 'package:flutter_movie_db/presentation/ui/widgets/movie_item_list.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
@@ -12,8 +13,13 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BasePage<HomeController, HomeState>(
-      loadedView: _buildContent(context),
+    return StateNotifierProvider<HomeController, HomeState>(
+      create: (_) => getIt.get<HomeController>(),
+      builder: (context, child) {
+        return BasePage<HomeController, HomeState>(
+          loadedView: _buildContent(context),
+        );
+      },
     );
   }
 

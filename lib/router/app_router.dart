@@ -20,12 +20,7 @@ class AppRouter {
         );
       case HOME_PATH:
         return MaterialPageRoute(
-          builder: (_) => StateNotifierProvider<HomeController, HomeState>(
-            create: (_) => getIt.get<HomeController>(),
-            builder: (context, child) {
-              return HomePage();
-            },
-          ),
+          builder: (_) => HomePage(),
         );
       case POST_PATH:
         return MaterialPageRoute(
