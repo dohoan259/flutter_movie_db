@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_db/common/error_listener.dart';
 import 'package:flutter_movie_db/di/di.dart';
 import 'package:flutter_movie_db/presentation/base/base_page.dart';
 import 'package:flutter_movie_db/presentation/controller/auth_state.dart';
@@ -24,11 +25,15 @@ class LoginPage extends StatelessWidget {
                     onSurface: Colors.grey,
                   ),
                   onPressed: () async {
-                    final isLoggedIn =
+                    final loggedInResult =
                         await context.read<LoginController>().login();
-                    if (isLoggedIn) {
+                    if (loggedInResult == null) {
                       Navigator.of(context)
                           .popAndPushNamed(AppRouter.HOME_PATH);
+                    } else {
+                      getIt<ErrorListener>()
+                          .handleError<LoginController, AuthState>(
+                              context, loggedInResult);
                     }
                   },
                   child: Text('Login'),

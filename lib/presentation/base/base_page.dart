@@ -24,11 +24,10 @@ class BasePage<C extends BaseController, T extends BaseState>
 
   @override
   State<StatefulWidget> createState() => _BasePage<C, T>();
-
 }
 
-class _BasePage<C extends BaseController, T extends BaseState> extends State<BasePage> {
-
+class _BasePage<C extends BaseController, T extends BaseState>
+    extends State<BasePage> {
   late Future _initData;
 
   @override
@@ -57,7 +56,8 @@ class _BasePage<C extends BaseController, T extends BaseState> extends State<Bas
                 } else if (viewState == ViewState.Error) {
                   final ErrorEntity error = context.read<T>().error!;
                   // todo: clear error
-                  return getIt<ErrorListener>().handleError<C>(error);
+                  return getIt<ErrorListener>()
+                      .handleError<C, T>(context, error);
                 } else {
                   return Stack(
                     children: [

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_db/generated/l10n.dart';
 import 'package:flutter_movie_db/presentation/base/base_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +7,7 @@ class UnknownErrorPage<C extends BaseController> extends StatelessWidget {
 
   UnknownErrorPage({required this.message});
 
-  String message;
+  String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class UnknownErrorPage<C extends BaseController> extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              message,
+              message ?? '',
               style: TextStyle(
                 fontSize: 24,
               ),

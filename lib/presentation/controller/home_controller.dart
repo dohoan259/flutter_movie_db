@@ -1,3 +1,4 @@
+import 'package:flutter_movie_db/data/error_entity.dart';
 import 'package:flutter_movie_db/data/model/movie_type.dart';
 import 'package:flutter_movie_db/data/repository/i_movie_repository.dart';
 import 'package:flutter_movie_db/data/repository/remote/model/response/general_movie.dart';
@@ -14,7 +15,7 @@ class HomeController extends BaseController<HomeState> {
   final IMovieRepository movieRepository;
 
   @override
-  Future<bool> loadData() async {
+  Future<ErrorEntity?> loadData() async {
     Resource<List<GeneralMovie>> resourceMovie =
         await movieRepository.getMovieList(MovieType.POPULAR);
 
@@ -28,6 +29,6 @@ class HomeController extends BaseController<HomeState> {
       state = clone;
     }
 
-    return true;
+    return resourceMovie.error;
   }
 }

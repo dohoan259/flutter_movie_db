@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movie_db/di/di.dart';
-import 'package:flutter_movie_db/presentation/controller/home_controller.dart';
-import 'package:flutter_movie_db/presentation/controller/home_state.dart';
 import 'package:flutter_movie_db/presentation/ui/screens/home/home_page.dart';
 import 'package:flutter_movie_db/presentation/ui/screens/login/login_page.dart';
-import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 
 class AppRouter {
-  static const HOME_PATH = '/';
+  static const HOME_PATH = '/home';
   static const LOGIN_PATH = '/login';
   static const POST_PATH = '/post';
   static const TEST_PATH = '/test';
@@ -15,16 +11,19 @@ class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case LOGIN_PATH:
+        final loginPage = LoginPage();
         return MaterialPageRoute(
-          builder: (_) => LoginPage(),
+          builder: (_) => loginPage,
         );
       case HOME_PATH:
+        final homePage = HomePage();
         return MaterialPageRoute(
-          builder: (_) => HomePage(),
+          builder: (_) => homePage,
         );
       case POST_PATH:
+        final homePage = HomePage();
         return MaterialPageRoute(
-          builder: (_) => HomePage(),
+          builder: (_) => homePage,
         );
       default:
         return MaterialPageRoute(builder: (_) {
